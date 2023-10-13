@@ -8,7 +8,7 @@ import { getPasswordStrength } from '../helpers/getPasswordStrength';
 })
 export class PasswordFormComponent {
   form: FormGroup;
-  pointer: "" | "all-Red" | "easy" | "medium" | "strong";
+  pointer: "" | "all-red" | "easy" | "medium" | "strong";
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
@@ -18,7 +18,7 @@ export class PasswordFormComponent {
     this.pointer = "";
 
     this.form.get('password')?.valueChanges.subscribe(value => {
-      this.validatePassword(value);
+      this.validatePassword(value.replace(/\s/g, ''));
     });
   }
 
@@ -30,14 +30,14 @@ export class PasswordFormComponent {
   }
 
   validatePassword(password: string) {
-    if (password.length === 0 || password === " ") {
+    if (password.length === 0) {
       this.form.get('password')?.setErrors({ invalidPassword: true });
       this.pointer = "";
       return;
     }
 
     if (password.length < 8) {
-      this.pointer = "all-Red";
+      this.pointer = "all-red";
       this.form.get('password')?.setErrors({ invalidPassword: true });
       return;
     }
